@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: @project.name@
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yml
+        group: BASE_GROUP
+
+# seata
+seata:
+  enabled: true
+  application-id: ${spring.application.name}
+  tx-service-group: ${spring.application.name}_tx_group
+  config:
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8848
+      group: "SEATA_GROUP"
+      namespace: "3c7a2f5f-068b-4988-94e9-ef5ad23c33ae"
+      username: "nacos"
+      password: "nacos"

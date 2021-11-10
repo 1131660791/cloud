@@ -1,0 +1,18 @@
+spring:
+  # 数据库链接
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1/zw_cloud_base?useUnicode=true&serverTimezone=GMT%2B8&characterEncoding=utf-8
+    username: root
+    password: root
+  #配置采样百分比,开发环境可以设置为1，表示全部，生产就用默认（0.1）
+  sleuth:
+    sampler:
+      probability: 1
+
+# Logger Config
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    com.baomidou.mybatisplus.samples: debug

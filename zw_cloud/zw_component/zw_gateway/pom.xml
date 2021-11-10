@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>zw_component</artifactId>
+        <groupId>com.zw</groupId>
+        <version>1.0</version>
+    </parent>
+    <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>zw_gateway</artifactId>
+
+    <properties>
+        <gateway_version>2.0.0.RELEASE</gateway_version>
+    </properties>
+
+    <dependencies>
+       <dependency>
+            <groupId>com.zw</groupId>
+            <artifactId>commons_component_bom</artifactId>
+            <version>${project.version}</version>
+            <type>pom</type>
+        </dependency>
+        <!-- GateWay start -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+            <version>${server.version}</version>
+        </dependency>
+        <!--zipkin客户端依赖，其包含了sleuth依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <version>${server.version}</version>
+        </dependency>
+        <!-- GateWay end -->
+        <dependency>
+            <groupId>com.zw</groupId>
+            <artifactId>commons_mq</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.name}</finalName>
+        <plugins>
+            <!-- maven SpringBoot打包 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <finalName>${project.build.finalName}</finalName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

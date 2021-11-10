@@ -1,0 +1,63 @@
+server:
+  port: 8086
+
+spring:
+  sleuth:
+    sampler:
+      probability: 1.0
+  # zipkin
+  zipkin:
+    sender:
+      type: kafka
+    service:
+      name: gateway
+  # base-url: http://localhost:9411/
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+  # cloud
+  cloud:
+    # 开启自动路由
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+    # zipkin 数据源
+    stream:
+      binders:
+        zipkin:
+          # 当项目同时使用kafka和rabbit时，需要指定
+          type: kafka
+# logging
+logging:
+  config: classpath:logback-spring.xml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info
+
+#spring:
+#  cloud:
+#    gateway:
+#      routes: # 路由是gateway的基本构建模块。它由ID、目标URI、断言集合和过滤器集合组成。如果聚合断言结果为真，则匹配到该路由。
+#        id: baidu
+#        url: http://www.baidu.com
+#        predicates: # 断言集合
+#          - Path=/foo/{segment},/bar/{segment} # Path 路由断言 Factory 有2个参数: 一个Spring PathMatcher表达式列表和可选matchOptionalTrailingSeparator标识 .
+#          #            - Before=2017-01-20T17:42:47.789-07:00[America/Denver] # Before 路由断言 Factory 采用一个参数——日期时间。在该日期时间之前发生的请求都将被匹配。
+#          #            - After=2017-01-20T17:42:47.789-07:00[America/Denver]  # After 路由断言 Factory 采用一个参数——日期时间。在该日期时间之后发生的请求都将被匹配。
+#          #            # Between 路由断言 Factory有两个参数，datetime1和datetime2。在datetime1和datetime2之间的请求将被匹配。datetime2参数的实际时间必须在datetime1之后。
+#          #            - Between=2017-01-20T17:42:47.789-07:00[America/Denver], 2017-01-21T17:42:47.789-07:00[America/Denver]
+#          #            - Cookie=chocolate, ch.p # Cookie 路由断言 Factory有两个参数，cookie名称和正则表达式。请求包含次cookie名称且正则表达式为真的将会被匹配。
+#          #            - Header=X-Request-Id, \d+ # Header 路由断言 Factory有两个参数，header名称和正则表达式。请求包含次header名称且正则表达式为真的将会被匹配。
+#          #            - Host=**.somehost.org,**.anotherhost.org # Host 路由断言 Factory包括一个参数：host name列表。使用Ant路径匹配规则，.作为分隔符。
+#          #            - Method=GET # Method 路由断言 Factory只包含一个参数: 需要匹配的HTTP请求方式
+#          #             - Query=baz # Query 路由断言 Factory 有2个参数: 必选项 param 和可选项 regexp , 则包含了请求参数 baz的都将被匹配。
+#          # RemoteAddr 路由断言 Factory的参数为 一个CIDR符号（IPv4或IPv6）字符串的列表，最小值为1，例如192.168.0.1/16（其中192.168.0.1是IP地址并且16是子网掩码）。
+#        #             - RemoteAddr=192.168.1.1/24
+#        filters:  # 过滤器允许以某种方式修改传入的HTTP请求或返回的HTTP响应。过滤器的作用域是某些特定路由。Spring Cloud Gateway包括许多内置的 Filter工厂。
+#          PrefixPath=/mypath # 这将给所有匹配请求的路径加前缀/mypath。因此，向/hello发送的请求将发送到/mypath/hello。
+#  #       - AddRequestHeader=X-Request-Foo, Bar # 对于所有匹配的请求，这将向下游请求的头中添加 x-request-foo:bar header
+

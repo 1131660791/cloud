@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.zw</groupId>
+    <artifactId>zw_cloud</artifactId>
+    <!--  父类型都为pom类型 -->
+    <packaging>pom</packaging>
+    <!-- 项目版本 -->
+    <version>1.0</version>
+
+    <developers> <!-- 开发者信息 -->
+        <developer>
+            <name>hzw</name>
+            <email>cdpjhzw@foxmail.com</email>
+            <roles>
+                <role>开发者</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <modules>
+        <module>zw_commons</module>
+        <module>zw_business</module>
+        <module>zw_component</module>
+    </modules>
+
+    <parent> <!-- 引入springboot 启动类 -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.8.RELEASE</version>
+        <relativePath/> <!-- 设定一个空值将始终从仓库中获取，不从本地路径获取 -->
+    </parent>
+
+    <properties> <!-- 指定导入jar包版本 -->
+        <junit.version>4.12</junit.version>
+        <server.version>2.1.0.RELEASE</server.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+            <version>${server.version}</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.SR3</version>
+                <type>pom</type>
+                <!-- maven不支持多继承，使用import来依赖管理配置 -->
+                <scope>import</scope>
+            </dependency>
+            <!-- 引用单元测试类 -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

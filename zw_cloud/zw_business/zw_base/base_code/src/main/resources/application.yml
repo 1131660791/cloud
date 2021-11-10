@@ -1,0 +1,40 @@
+server:
+  port: 8081
+
+spring:
+  # cloud
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        group: BUSINESS_GROUP
+    # zipkin 数据源
+    stream:
+      binders:
+        zipkin:
+          # 当项目同时使用kafka和rabbit时，需要指定
+          type: kafka
+  #
+  zipkin:
+    sender:
+      type: kafka
+    #base-url: http://localhost:9411/
+    service:
+      name: @project.name@
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+
+
+setting:
+  api:
+    prefix: base
+
+#  添加配置，配置暴露 endpoints：
+management:
+  endpoints:
+    web:
+      exposure:
+        # include: "*" 表示暴露所有 endpoints 出去，默认是“health”，“info”
+        include: "*"
+

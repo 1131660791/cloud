@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.zw</groupId>
+        <artifactId>zw_cloud</artifactId>
+        <version>1.0</version>
+    </parent>
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>zw_commons</artifactId>
+    <name>${project.artifactId}</name>
+
+    <modules>
+        <module>commons_bom</module>
+        <module>commons_redis</module>
+        <module>commons_util</module>
+        <module>commons_generator</module>
+        <module>commons_mq</module>
+        <module>commons_component_bom</module>
+    </modules>
+
+    <properties>
+        <swagger.version>2.9.2</swagger.version>
+    </properties>
+
+    <!-- 公共模块引入管理 -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency> <!-- redis -->
+                <groupId>com.zw</groupId>
+                <artifactId>commons_redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zw</groupId>
+                <artifactId>commons_util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- lombok  -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.20</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+    </dependencies>
+</project>
