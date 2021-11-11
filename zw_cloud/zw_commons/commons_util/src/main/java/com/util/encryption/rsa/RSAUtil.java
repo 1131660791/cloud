@@ -82,7 +82,15 @@ public class RSAUtil {
         }
     }
 
-    /*初始化公钥config*/
+    /**
+     * 私有构造器
+     */
+    private RSAUtil() {
+    }
+
+    /**
+     * 初始化公钥config
+     */
     private static Properties getInstanceForPub() {
         if (pubProperties == null) {
             Resource res = new ClassPathResource(PUBLIC_FILENAME);
@@ -96,7 +104,9 @@ public class RSAUtil {
         return pubProperties;
     }
 
-    /*初始钥私钥config*/
+    /**
+     * 初始钥私钥config
+     */
     private static Properties getInstanceForPri() {
         if (PriProperties == null) {
             Resource res = new ClassPathResource(PRIVATE_FILENAME);
@@ -110,11 +120,6 @@ public class RSAUtil {
         return PriProperties;
     }
 
-    /**
-     * 私有构造器
-     */
-    private RSAUtil() {
-    }
 
     /**
      * 生成密钥对
@@ -139,6 +144,7 @@ public class RSAUtil {
         storeKey(publicKeyString, PUBLIC_KEY_NAME, pubProperties, PUBLIC_FILENAME);
         storeKey(privateKeyString, PRIVATE_KEY_NAME, PriProperties, PRIVATE_FILENAME);
     }
+
 
     /**
      * 将指定的密钥字符串保存到文件中,如果找不到文件，就创建

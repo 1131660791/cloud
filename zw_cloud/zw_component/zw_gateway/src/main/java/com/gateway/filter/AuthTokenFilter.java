@@ -3,14 +3,13 @@ package com.gateway.filter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gateway.util.constant.AuthProvider;
+import com.util.encryption.rsa.RSAUtil;
 import com.util.jwt.JwtUtil;
 import com.util.response.Resp;
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -23,6 +22,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 /**
  * token 验证
@@ -48,7 +48,8 @@ public class AuthTokenFilter implements GlobalFilter, Ordered {
             return unAuth(resp, "缺失令牌,鉴权失败");
         }
         String token = JwtUtil.getToken(headerToken);
-        Claims claims = JwtUtil.parseJWT(token);
+        String privateKey = RSAUtil.getPrivateKey().getPrivateExponent().toString();
+        Claims claims = JwtUtil.parseJWT(token, privateKey);
         if (claims == null) {
             return unAuth(resp, "请求未授权");
         }
@@ -62,7 +63,10 @@ public class AuthTokenFilter implements GlobalFilter, Ordered {
      * @return
      */
     private boolean isSkip(String path) {
-        return AuthProvider.getDefaultSkipUrl().stream().map(url -> url.replace(AuthProvider.TARGET, AuthProvider.REPLACEMENT)).anyMatch(path::contains);
+        List<String> defaultSkipUrl = AuthProvider.getDefaultSkipUrl();
+        System.out.println(defaultSkipUrl);
+        boolean isSkip = defaultSkipUrl.stream().map(url -> url.replace(AuthProvider.TARGET, AuthProvider.REPLACEMENT)).anyMatch(path::contains);
+        return isSkip;
     }
 
     /**
