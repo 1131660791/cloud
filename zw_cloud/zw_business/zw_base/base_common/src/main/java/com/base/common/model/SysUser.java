@@ -1,10 +1,15 @@
 package com.base.common.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import java.io.Serializable;
+import java.lang.reflect.Type;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Generated;
 import lombok.experimental.Accessors;
 
 /**
@@ -26,6 +31,7 @@ public class SysUser extends Model<SysUser> {
     /**
      * 用户id
      */
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.math.BigInteger;
 
 @RestController
 @RequestMapping("/auth")
@@ -20,17 +21,16 @@ public class AuthController {
     @Resource
     private SysUserService sysUserService;
 
-
     @RequestMapping("/login")
     @ApiOperation(value = "登录", notes = "")
     public String login(String account) {
-        QueryWrapper<SysUser> userQuery = new QueryWrapper<SysUser>();
+        QueryWrapper<SysUser> userQuery = new QueryWrapper();
         userQuery.eq("account", account);
         SysUser sysUser = sysUserService.getOne(userQuery);
         if (sysUser == null) {
             return "未找到该用户";
         }
-        String publicKey = RSAUtil.getPublicKey().getPublicExponent().toString();
+        BigInteger publicKey = RSAUtil.getPublicKey().getModulus();
         return "登录成功: " + JwtUtil.createJWT(System.currentTimeMillis(), sysUser.getId().toString(), sysUser.getUserName(), sysUser.getPassWord(), publicKey);
     }
 }

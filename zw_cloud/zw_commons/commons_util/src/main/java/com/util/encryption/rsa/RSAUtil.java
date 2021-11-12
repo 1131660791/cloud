@@ -186,7 +186,8 @@ public class RSAUtil {
      */
     public static RSAPublicKey getPublicKey() {
         try {
-            byte[] keyBytes = decoder.decode(getKeyString(PUBLIC_KEY_NAME, pubProperties));
+            String publicKey = getKeyString(PUBLIC_KEY_NAME, pubProperties);
+            byte[] keyBytes = decoder.decode(publicKey);
             X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(keyBytes);
             RSAPublicKey rsa = (RSAPublicKey) keyFactory.generatePublic(x509EncodedKeySpec);
             return rsa;
@@ -204,7 +205,8 @@ public class RSAUtil {
      */
     public static RSAPrivateKey getPrivateKey() {
         try {
-            byte[] keyBytes = decoder.decode(getKeyString(PRIVATE_KEY_NAME, PriProperties));
+            String privateKey = getKeyString(PRIVATE_KEY_NAME, PriProperties);
+            byte[] keyBytes = decoder.decode(privateKey);
             PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(keyBytes);
             return (RSAPrivateKey) keyFactory.generatePrivate(pkcs8EncodedKeySpec);
         } catch (InvalidKeySpecException e) {

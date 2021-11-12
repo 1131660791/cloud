@@ -21,6 +21,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class AuthTokenFilter implements GlobalFilter, Ordered {
             return unAuth(resp, "缺失令牌,鉴权失败");
         }
         String token = JwtUtil.getToken(headerToken);
-        String privateKey = RSAUtil.getPrivateKey().getPrivateExponent().toString();
+        BigInteger privateKey = RSAUtil.getPrivateKey().getModulus();
         Claims claims = JwtUtil.parseJWT(token, privateKey);
         if (claims == null) {
             return unAuth(resp, "请求未授权");
