@@ -3,7 +3,6 @@ package com.gateway.filter;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gateway.util.constant.AuthProvider;
-import com.util.encryption.rsa.RSAUtil;
 import com.util.jwt.JwtUtil;
 import com.util.response.Resp;
 import io.jsonwebtoken.Claims;
@@ -21,7 +20,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -49,8 +47,7 @@ public class AuthTokenFilter implements GlobalFilter, Ordered {
             return unAuth(resp, "缺失令牌,鉴权失败");
         }
         String token = JwtUtil.getToken(headerToken);
-        BigInteger privateKey = RSAUtil.getPrivateKey().getModulus();
-        Claims claims = JwtUtil.parseJWT(token, privateKey);
+        Claims claims = JwtUtil.parseJWT(token);
         if (claims == null) {
             return unAuth(resp, "请求未授权");
         }

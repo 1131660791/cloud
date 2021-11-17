@@ -22,6 +22,7 @@ import java.util.Properties;
 
 /**
  * 实现RSA加解密
+ * 公钥负责加密，私钥负责解密
  *
  * @author : lijialun
  * @description:
@@ -32,41 +33,54 @@ public class RSAUtil {
      * 算法名称
      */
     private static final String ALGORITHM = "RSA";
+
     /**
      * RSA签名算法
      */
     private static final String RSA_SIGNATURE_ALGORITHM = "SHA256WithRSA";
+
     /**
      * 默认密钥大小
      */
     private static final int KEY_SIZE = 2048;
+
     /**
      * 最大解密长度
      */
     private static final int MAX_DECRYPT_BLOCK = 256;
+
     /**
      * 用来指定保存密钥对的文件名和存储的名称
      */
     private static final String PUBLIC_KEY_NAME = "publicKey";
+
     private static final String PRIVATE_KEY_NAME = "privateKey";
+
     private static final String PUBLIC_FILENAME = "publicKey.properties";
+
     private static final String PRIVATE_FILENAME = "privateKey.properties";
+
     private static Properties pubProperties;
+
     private static Properties PriProperties;
+
     /**
      * 密钥对生成器
      */
     private static KeyPairGenerator keyPairGenerator = null;
 
     private static KeyFactory keyFactory = null;
+
     /**
      * 缓存的密钥对
      */
     private static KeyPair keyPair = null;
+
     /**
      * Base64 编码/解码器 JDK1.8
      */
     private static Base64.Decoder decoder = Base64.getDecoder();
+
     private static Base64.Encoder encoder = Base64.getEncoder();
 
     /** 初始化密钥工厂 */
@@ -74,7 +88,7 @@ public class RSAUtil {
         try {
             keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
             keyFactory = KeyFactory.getInstance(ALGORITHM);
-            //generateKeyPair();
+            // generateKeyPair();
             getInstanceForPub();
             getInstanceForPri();
         } catch (NoSuchAlgorithmException e) {
@@ -198,6 +212,23 @@ public class RSAUtil {
     }
 
     /**
+     * 公钥key
+     *
+     * @return
+     */
+    public static RSAPublicKey rsaPublicKey(String publicKey) {
+        try {
+            byte[] keyBytes = decoder.decode(publicKey);
+            X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(keyBytes);
+            RSAPublicKey rsa = (RSAPublicKey) keyFactory.generatePublic(x509EncodedKeySpec);
+            return rsa;
+        } catch (InvalidKeySpecException e) {
+            log.error("publicKey()#" + e.getMessage(), e);
+        }
+        return null;
+    }
+
+    /**
      * 从文件获取RSA私钥
      *
      * @return RSA私钥
@@ -243,7 +274,9 @@ public class RSAUtil {
         return encryptedData;
     }
 
-    //私钥解密
+    /**
+     * 私钥解密
+     */
     public static byte[] decryptByPrivateKey(byte[] encryptedData) throws Exception {
         PKCS8EncodedKeySpec pkcs8KeySpec = new PKCS8EncodedKeySpec(getPrivateKey().getEncoded());
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -330,6 +363,15 @@ public class RSAUtil {
     }
 
     public static void main(String[] args) {
-        generateKeyPair();
+        try {
+            //  generateKeyPair();
+            byte[] s = encryptByPublicKey("加密内容".getBytes());
+            System.out.println(new String(s));
+            System.out.println(new String(decryptByPrivateKey(s)));
+        } catch (Exception e) {
+
+        }
+
+
     }
 }

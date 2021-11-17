@@ -1,6 +1,7 @@
 package com.util.jwt;
 
 import com.util.constant.auth.TokenConstant;
+import com.util.encryption.rsa.RSAUtil;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,14 +45,13 @@ public class JwtUtil {
      * 用户登录成功后生成Jwt
      * 使用Hs256算法  私匙使用用户密码
      *
-     * @param ttlMillis
+     * @param ttlMillis - 过期时间 单位 分钟
      * @param id
      * @param userName
      * @param passWord
-     * @param publicKey
      * @return
      */
-    public static String createJWT(long ttlMillis, String id, String userName, String passWord, BigInteger publicKey) {
+    public static String createJWT(long ttlMillis, String id, String userName, String passWord) {
         // 生成JWT的时间
         long nowMillis = System.currentTimeMillis();
         // 创建payload的私有声明（根据特定的业务需要添加，如果要拿这个做验证，一般是需要和jwt的接收方提前沟通好验证方式的）
@@ -67,21 +67,22 @@ public class JwtUtil {
         // 这里其实就是new一个JwtBuilder，设置jwt的body
         JwtBuilder builder = Jwts.builder()
                 .setHeaderParam("typ", "JWT")
-                //如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值，一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的
+                // 如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值，一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的
                 .setClaims(claims)
-                //设置jti(JWT ID)：是JWT的唯一标识，根据业务需要，这个可以设置为一个不重复的值，主要用来作为一次性token,从而回避重放攻击。
+                // 设置jti(JWT ID)：是JWT的唯一标识，根据业务需要，这个可以设置为一个不重复的值，主要用来作为一次性token，从而回避重放攻击。
                 .setId(UUID.randomUUID().toString())
-                //iat: jwt的签发时间
+                .setIssuer("hzw")
+                // iat: jwt的签发时间
                 .setIssuedAt(new Date(nowMillis))
-                //代表这个JWT的主体，即它的所有人，这个是一个json格式的字符串，可以存放什么userid，roldid之类的，作为什么用户的唯一标志。
+                // 代表这个JWT的主体，即它的所有人，这个是一个json格式的字符串，可以存放什么userid，roldid之类的，作为什么用户的唯一标志。
                 .setSubject(userName);
 
         if (ttlMillis >= 0) {
-            //设置过期时间
-            builder.setExpiration(new Date(nowMillis + ttlMillis));
+            //设置过期时间 单位 毫秒
+            builder.setExpiration(new Date(nowMillis + (ttlMillis * (1000 * 60))));
         }
         // 设置签名使用的签名算法和签名使用的秘钥
-        builder.signWith(SignatureAlgorithm.HS256, generalKey(publicKey));
+        builder.signWith(SignatureAlgorithm.RS256, RSAUtil.getPrivateKey());
         return builder.compact();
     }
 
@@ -109,31 +110,50 @@ public class JwtUtil {
      * @param jsonWebToken token串
      * @return Claims
      */
-    public static Claims parseJWT(String jsonWebToken, BigInteger privateKey) {
+    public static Claims parseJWT(String jsonWebToken) {
         try {
-            JwtParser jwtParser = Jwts.parser().setSigningKey(generalKey(privateKey));
-            return jwtParser.parseClaimsJws(jsonWebToken).getBody();
+            JwtParser jwtParser = Jwts.parser().setSigningKey(RSAUtil.getPrivateKey());
+            // 解析token
+            Claims claims = jwtParser.parseClaimsJws(jsonWebToken).getBody();
+            return claims;
         } catch (IllegalArgumentException ie) {
-            log.error("错误：" + ie);
+            log.warn("IllegalArgumentException 错误：" + ie);
             return null;
         } catch (SignatureException e) {
-            log.warn("错误：" + e);
+            log.warn("SignatureException 错误：" + e);
+            return null;
+        } catch (UnsupportedJwtException uje) {
+            log.warn("UnsupportedJwtException 错误 密钥不正确：" + uje);
             return null;
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error("错误：" + e);
+            log.error("Exception 错误：" + e);
             return null;
         }
     }
 
     /**
      * 由字符串生成加密key
+     * --
+     * 对称加密，如AES
+     * 基本原理：将明文分成N个组，然后使用密钥对各个组进行加密，形成各自的密文，最后把所有的分组密文进行合并，形成最终的密文。
+     * 优势：算法公开、计算量小、加密速度快、加密效率高
+     * 缺陷：双方都使用同样密钥，安全性得不到保证
+     * --
+     * 非对称加密，如RSA
+     * 基本原理：同时生成两把密钥：私钥和公钥，私钥隐秘保存，公钥可以下发给信任客户端
+     * 私钥加密，持有私钥或公钥才可以解密
+     * 公钥加密，持有私钥才可解密
+     * 优点：安全，难以破解
+     * 缺点：算法比较耗时
+     * --
+     * 不可逆加密，如MD5，SHA
+     * 基本原理：加密过程中不需要使用密钥，输入明文后由系统直接经过加密算法处理成密文，这种加密后的数据是无法被解密的，无法根据密文推算出明文。
      *
      * @return
      */
     public static SecretKey generalKey(BigInteger keys) {
         byte[] encodedKey = keys.toByteArray();
-        SecretKeySpec key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
+        SecretKeySpec key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "RSA");
         return key;
     }
 }

@@ -3,7 +3,6 @@ package com.base.api.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.base.api.service.SysUserService;
 import com.base.common.model.SysUser;
-import com.util.encryption.rsa.RSAUtil;
 import com.util.jwt.JwtUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.math.BigInteger;
 
+/**
+ * 认证Controller
+ *
+ * @author hzw
+ */
 @RestController
 @RequestMapping("/auth")
 @Api(value = "AuthController", tags = {"认证"})
@@ -30,7 +33,7 @@ public class AuthController {
         if (sysUser == null) {
             return "未找到该用户";
         }
-        BigInteger publicKey = RSAUtil.getPublicKey().getModulus();
-        return "登录成功: " + JwtUtil.createJWT(System.currentTimeMillis(), sysUser.getId().toString(), sysUser.getUserName(), sysUser.getPassWord(), publicKey);
+        return "登录成功: " + JwtUtil.createJWT(2, sysUser.getId().toString(), sysUser.getUserName(), sysUser.getPassWord());
     }
+
 }

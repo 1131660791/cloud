@@ -4,12 +4,10 @@ package com.base.api.controller;
 import com.alibaba.nacos.common.util.UuidUtils;
 import com.base.api.service.SysUserService;
 import com.base.common.model.SysUser;
-import org.apache.catalina.User;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.UUID;
 
 /**
  * <p>
@@ -19,7 +17,7 @@ import java.util.UUID;
  * @author hzw
  * @since 2021-01-15
  */
-@Controller
+@RestController
 @RequestMapping("/sysUser")
 public class SysUserController {
 
@@ -28,15 +26,13 @@ public class SysUserController {
 
 
     @RequestMapping("addUser")
-    public String addUser(){
+    public String addUser() {
         SysUser sysUser = new SysUser();
         sysUser.setAccount(UuidUtils.generateUuid());
         sysUser.setUserName(UuidUtils.generateUuid());
         sysUserService.addUser(sysUser);
         return "成功";
     }
-
-
 
 
 }
