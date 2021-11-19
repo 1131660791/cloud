@@ -10,9 +10,17 @@ spring:
   sleuth:
     sampler:
       probability: 1
+  cloud:
+    alibaba:
+      seata:
+        tx-service-group: ${spring.application.name}_tx_group
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  type-aliases-package: com.base.common.model
 
 # Logger Config
 logging:
   config: classpath:logback-spring.xml
   level:
-    com.baomidou.mybatisplus.samples: debug
+    com.baomidou.mybatisplus.samples: error

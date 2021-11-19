@@ -3,11 +3,13 @@ package com.base.api.controller;
 
 import com.alibaba.nacos.common.util.UuidUtils;
 import com.base.api.service.SysUserService;
+import com.base.common.dto.SysUserDTO;
 import com.base.common.model.SysUser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * <p>
@@ -34,6 +36,12 @@ public class SysUserController {
         return "成功";
     }
 
+
+    @RequestMapping("userDto")
+    public String userDto(@Valid SysUserDTO sysUserDTO) {
+        System.out.println(sysUserDTO);
+        return "成功";
+    }
 
 }
 
