@@ -20,11 +20,14 @@ import java.util.*;
  * 2：载荷 Payload ：
  * JWT主体内容主要包含以下三种类型：
  * (1) Reserved（保留声明），它的含义就像是编程语言的保留字一样，属于JWT规范中规定好的，这类声明不是必须的，但是是建议使用的。有以下几种：
- * (2) iss: JWT的签发者
- * (3) sub: 该JWT所面向的用户
- * (4) aud:JWT的接收方
- * (5) exp(expires): 过期时间，这里是一个Unix时间戳
+ * (2) iss (issuer): JWT的签发者
+ * (3) sub (subject): 主题
+ * (4) aud (audience):JWT的接收方
+ * (5) exp(expiration time): 过期时间，这里是一个Unix时间戳
  * (6) iat(issued at): 签发时间，这里是一个Unix时间戳
+ * (7) nbf (Not Before)：生效时间
+ * (8) jti (JWT ID)：编号
+ *
  * 3：Signature：将上面的两个编码后的字符串都用句号 .连接在一起（头部在前），最后，我们将上面拼接完的字符串用HS256算法进行加密。在加密的时候，我们还需要提供一个密钥（secret）。这就是签名。
  * 最后将这一部分签名也拼接在被签名的字符串后面，我们就得到了完整的JWT
  *
@@ -78,7 +81,7 @@ public class JwtUtil {
                 .setSubject(userName);
 
         if (ttlMillis >= 0) {
-            //设置过期时间 单位 毫秒
+            // 设置过期时间 单位 毫秒
             builder.setExpiration(new Date(nowMillis + (ttlMillis * (1000 * 60))));
         }
         // 设置签名使用的签名算法和签名使用的秘钥
