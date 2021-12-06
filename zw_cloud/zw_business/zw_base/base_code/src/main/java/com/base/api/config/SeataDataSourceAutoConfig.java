@@ -17,56 +17,56 @@ import javax.sql.DataSource;
  * @Description seata global configuration
  * @Date Created in 2019/1/24 10:28
  */
-@Configuration
+//@Configuration
 public class SeataDataSourceAutoConfig {
 
-    /**
-     * autowired datasource config
-     */
-    @Autowired
-    private DataSourceProperties dataSourceProperties;
-
-    /**
-     * init durid datasource
-     *
-     * @Return: druidDataSource  datasource instance
-     */
-    @Bean
-    @Primary
-    public DruidDataSource druidDataSource() {
-        DruidDataSource druidDataSource = new DruidDataSource();
-        druidDataSource.setUrl(dataSourceProperties.getUrl());
-        druidDataSource.setUsername(dataSourceProperties.getUsername());
-        druidDataSource.setPassword(dataSourceProperties.getPassword());
-        druidDataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
-        druidDataSource.setMinIdle(0);
-        druidDataSource.setInitialSize(0);
-        druidDataSource.setMaxActive(180);
-        druidDataSource.setMaxWait(60000);
-        druidDataSource.setLogAbandoned(true);
-        druidDataSource.setTestOnBorrow(false);
-        druidDataSource.setTestOnReturn(false);
-        druidDataSource.setTestWhileIdle(true);
-        druidDataSource.setRemoveAbandoned(true);
-        druidDataSource.setRemoveAbandonedTimeout(1800);
-        druidDataSource.setTimeBetweenEvictionRunsMillis(60000);
-        druidDataSource.setMinEvictableIdleTimeMillis(25200000);
-        druidDataSource.setValidationQuery("Select 1 from DUAL");
-        return druidDataSource;
-    }
-
-    /**
-     * init mybatis sqlSessionFactory
-     *
-     * @Param: dataSourceProxy  datasource proxy
-     * @Return: DataSourceProxy  datasource proxy
-     */
-    @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-        MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
-        factoryBean.setDataSource(dataSource);
-        factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver()
-                .getResources("classpath*:/mapper/*.xml"));
-        return factoryBean.getObject();
-    }
+//    /**
+//     * autowired datasource config
+//     */
+//    @Autowired
+//    private DataSourceProperties dataSourceProperties;
+//
+//    /**
+//     * init durid datasource
+//     *
+//     * @Return: druidDataSource  datasource instance
+//     */
+//    @Bean
+//    @Primary
+//    public DruidDataSource druidDataSource() {
+//        DruidDataSource druidDataSource = new DruidDataSource();
+//        druidDataSource.setUrl(dataSourceProperties.getUrl());
+//        druidDataSource.setUsername(dataSourceProperties.getUsername());
+//        druidDataSource.setPassword(dataSourceProperties.getPassword());
+//        druidDataSource.setDriverClassName(dataSourceProperties.getDriverClassName());
+//        druidDataSource.setMinIdle(0);
+//        druidDataSource.setInitialSize(0);
+//        druidDataSource.setMaxActive(180);
+//        druidDataSource.setMaxWait(60000);
+//        druidDataSource.setLogAbandoned(true);
+//        druidDataSource.setTestOnBorrow(false);
+//        druidDataSource.setTestOnReturn(false);
+//        druidDataSource.setTestWhileIdle(true);
+//        druidDataSource.setRemoveAbandoned(true);
+//        druidDataSource.setRemoveAbandonedTimeout(1800);
+//        druidDataSource.setTimeBetweenEvictionRunsMillis(60000);
+//        druidDataSource.setMinEvictableIdleTimeMillis(25200000);
+//        druidDataSource.setValidationQuery("Select 1 from DUAL");
+//        return druidDataSource;
+//    }
+//
+//    /**
+//     * init mybatis sqlSessionFactory
+//     *
+//     * @Param: dataSourceProxy  datasource proxy
+//     * @Return: DataSourceProxy  datasource proxy
+//     */
+//    @Bean
+//    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+//        MybatisSqlSessionFactoryBean factoryBean = new MybatisSqlSessionFactoryBean();
+//        factoryBean.setDataSource(dataSource);
+//        factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver()
+//                .getResources("classpath*:/mapper/*.xml"));
+//        return factoryBean.getObject();
+//    }
 }

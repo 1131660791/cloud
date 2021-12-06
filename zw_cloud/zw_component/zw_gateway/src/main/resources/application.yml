@@ -2,18 +2,18 @@ server:
   port: 8086
 
 spring:
-  sleuth:
-    sampler:
-      probability: 1.0
+#  sleuth:
+#    sampler:
+#      probability: 1.0
   # zipkin
-  zipkin:
-    sender:
-      type: kafka
-    service:
-      name: gateway
+#  zipkin:
+#    sender:
+#      type: kafka
+#    service:
+#      name: gateway
   # base-url: http://localhost:9411/
-  kafka:
-    bootstrap-servers: 127.0.0.1:9092
+#  kafka:
+#    bootstrap-servers: 127.0.0.1:9092
   # cloud
   cloud:
     # 开启自动路由
@@ -23,11 +23,11 @@ spring:
           enabled: true
           lower-case-service-id: true
     # zipkin 数据源
-    stream:
-      binders:
-        zipkin:
-          # 当项目同时使用kafka和rabbit时，需要指定
-          type: kafka
+#    stream:
+#      binders:
+#        zipkin:
+#          # 当项目同时使用kafka和rabbit时，需要指定
+#          type: kafka
 # logging
 logging:
   config: classpath:logback-spring.xml

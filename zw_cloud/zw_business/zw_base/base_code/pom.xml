@@ -14,6 +14,7 @@
     <description>base_基础服务</description>
     <properties>
         <latest.version>2.1.0.RELEASE</latest.version>
+        <sharding-sphere.version>4.1.1</sharding-sphere.version>
     </properties>
 
     <dependencies>
@@ -32,6 +33,17 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
             <version>${latest.version}</version>
         </dependency>
+        <!-- shardingJdbc -->
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+            <version>${sharding-sphere.version}</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.shardingsphere</groupId>-->
+<!--            <artifactId>sharding-transaction-base-seata-at</artifactId>-->
+<!--            <version>${sharding-sphere.version}</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>
