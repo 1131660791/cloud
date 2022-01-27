@@ -17,6 +17,10 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>${server.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.zw</groupId>
+            <artifactId>commons_util</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

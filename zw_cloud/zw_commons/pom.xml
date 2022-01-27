@@ -23,6 +23,7 @@
 
     <properties>
         <swagger.version>2.9.2</swagger.version>
+        <lombok.version>1.18.10</lombok.version>
     </properties>
 
     <!-- 公共模块引入管理 -->
@@ -46,7 +47,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.20</version>
+            <version>${lombok.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

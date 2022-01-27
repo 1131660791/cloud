@@ -19,6 +19,7 @@
         <latest.version>2.1.0.RELEASE</latest.version>
         <swagger.bootstrap.ui.version>1.9.6</swagger.bootstrap.ui.version>
         <mybatis.version>3.2.0</mybatis.version>
+        <lombok.version>1.18.10</lombok.version>
     </properties>
 
     <!-- Spring Cloud 版本 -->
@@ -27,7 +28,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.20</version>
+            <version>${lombok.version}</version>
         </dependency>
         <!--swagger 接口文档-->
         <dependency>
