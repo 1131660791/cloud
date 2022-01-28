@@ -1,2 +1,3 @@
+# 启动项目时, 将这个类以及注入到spring中
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.uptang.cloud.starter.data.redis.RedisConfiguration
+  com.commos.redis.config.RedisConfiguration

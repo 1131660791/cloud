@@ -15,6 +15,12 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @author hzw
  * @version 4.0.0
  * @date 2019-09-18
+ *
+ * 为什么要重写Redis序列化方式，改为Json呢？
+ * 因为RedisTemplate默认使用的是JdkSerializationRedisSerializer，会出现2个问题：
+ * 1: 被序列化的对象必须实现Serializable接口
+ * 2: 被序列化会出现乱码,导致value值可读性差.
+ *
  */
 @Slf4j
 @Configuration
