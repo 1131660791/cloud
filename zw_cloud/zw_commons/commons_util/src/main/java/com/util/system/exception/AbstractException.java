@@ -1,4 +1,4 @@
-package com.util.exception;
+package com.util.system.exception;
 
 public interface AbstractException {
 

@@ -1,6 +1,6 @@
-package com.util.web.request;
+package com.util.system.web.request;
 
-import com.util.euums.SortTypeEnum;
+import com.util.system.euums.SortTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 

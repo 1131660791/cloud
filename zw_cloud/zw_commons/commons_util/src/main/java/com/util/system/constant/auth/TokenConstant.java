@@ -1,4 +1,4 @@
-package com.util.constant.auth;
+package com.util.system.constant.auth;
 
 public interface TokenConstant {
 

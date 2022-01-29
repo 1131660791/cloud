@@ -1,4 +1,4 @@
-package com.util.encryption.rsa;
+package com.util.system.encryption.rsa;
 
 
 import lombok.extern.slf4j.Slf4j;

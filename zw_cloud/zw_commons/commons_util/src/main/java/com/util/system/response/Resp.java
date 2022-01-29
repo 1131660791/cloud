@@ -1,4 +1,4 @@
-package com.util.response;
+package com.util.system.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;

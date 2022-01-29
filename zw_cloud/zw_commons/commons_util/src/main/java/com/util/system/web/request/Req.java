@@ -1,10 +1,10 @@
-package com.util.response;
+package com.util.system.web.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 
 @Getter
@@ -15,7 +15,7 @@ import javax.validation.constraints.NotEmpty;
 public class Req<T> {
 
     @Valid
-    @NotEmpty(message = "请求参数对象不能为空")
+    @NotNull(message = "{data.not.null}")
     @ApiModelProperty(value = "请求参数对象", example = "")
     protected T data;
 

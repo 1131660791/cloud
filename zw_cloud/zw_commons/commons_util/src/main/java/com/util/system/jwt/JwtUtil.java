@@ -1,7 +1,7 @@
-package com.util.jwt;
+package com.util.system.jwt;
 
-import com.util.constant.auth.TokenConstant;
-import com.util.encryption.rsa.RSAUtil;
+import com.util.system.constant.auth.TokenConstant;
+import com.util.system.encryption.rsa.RSAUtil;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 

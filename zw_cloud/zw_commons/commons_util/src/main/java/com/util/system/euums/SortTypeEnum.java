@@ -1,4 +1,4 @@
-package com.util.euums;
+package com.util.system.euums;
 
 /**
  * @author stl

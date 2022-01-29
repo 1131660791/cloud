@@ -1,7 +1,7 @@
-package com.util.web.response;
+package com.util.system.web.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.util.exception.ResultCode;
+import com.util.system.exception.ResultCode;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
